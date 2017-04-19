@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-04-19 18:23:30
+-- Generation Time: 2017-04-19 18:45:23
 -- 服务器版本： 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -75,8 +75,13 @@ CREATE TABLE `stormgu_website` (
   `web_id` int(11) NOT NULL COMMENT '网站id',
   `web_name` varchar(255) NOT NULL COMMENT '网站名',
   `web_url` varchar(255) NOT NULL COMMENT '网站url',
+  `web_admin_url` varchar(255) NOT NULL COMMENT '网站后台url',
   `web_account` varchar(255) NOT NULL COMMENT '网站账户',
   `web_pass` varchar(255) NOT NULL COMMENT '网站密码',
+  `web_icp` varchar(255) DEFAULT NULL COMMENT '网站备案号',
+  `web_icp_account` varchar(255) DEFAULT NULL COMMENT '备案账户',
+  `web_icp_pass` varchar(255) DEFAULT NULL COMMENT '备案登录密码',
+  `web_icp_email` varchar(255) DEFAULT NULL COMMENT '备案邮箱',
   `web_status` int(11) NOT NULL COMMENT '网站状态1维护中，0停止维护',
   `domain_buildtime` int(11) DEFAULT NULL COMMENT '域名开通时间',
   `domain_endtime` int(11) DEFAULT NULL COMMENT '域名到期时间',
