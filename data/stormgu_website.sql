@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-04-19 17:36:23
+-- Generation Time: 2017-04-19 18:23:30
 -- 服务器版本： 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -32,8 +32,8 @@ CREATE TABLE `stormgu_tasks` (
   `web_id` int(11) NOT NULL COMMENT '网站id',
   `is_temporary` int(11) NOT NULL COMMENT '是否临时委托0否，1是',
   `temporary_user_id` int(11) DEFAULT NULL COMMENT '临时委托用户id',
-  `temporary_endtime` varchar(255) DEFAULT NULL COMMENT '临时委托',
-  `is_change` int(11) NOT NULL COMMENT '是否非暂时性委托，0否，1委托中',
+  `temporary_endtime` varchar(255) DEFAULT NULL COMMENT '临时委托结束时间',
+  `is_change` int(11) NOT NULL COMMENT '是否长期性委托，0否，1委托中，2主动要',
   `change_user_id` int(11) DEFAULT NULL COMMENT '长期委托用户id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务状态表';
 
@@ -45,9 +45,9 @@ CREATE TABLE `stormgu_tasks` (
 
 CREATE TABLE `stormgu_user` (
   `user_id` int(11) NOT NULL COMMENT '用户id（网站维护者）',
-  `name` varchar(255) DEFAULT NULL COMMENT '用户姓名',
-  `qq` varchar(255) DEFAULT NULL COMMENT '用户常用联系qq',
-  `phone` varchar(255) DEFAULT NULL COMMENT '用户常用联系手机'
+  `user_name` varchar(255) DEFAULT NULL COMMENT '用户姓名',
+  `user_qq` varchar(255) DEFAULT NULL COMMENT '用户常用联系qq',
+  `user_phone` varchar(255) DEFAULT NULL COMMENT '用户常用联系手机'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- --------------------------------------------------------
