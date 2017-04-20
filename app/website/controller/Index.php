@@ -1,11 +1,13 @@
 <?php
-namespace app\webstation\controller;
+namespace app\website\controller;
 use think\Controller;
+use think\config;
 
 class Index extends Controller
 {
     public function index()
     {
-        return $this->fetch(APP_PATH."/webstation/tpl/default/test.tpl");
+    	echo Config::get("template.view_path");
+        return $this->fetch("/index");
     }
 }
