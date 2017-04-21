@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-04-21 06:19:59
+-- Generation Time: 2017-04-21 19:37:35
 -- 服务器版本： 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -28,16 +28,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `websearch_keywords` (
   `key_id` int(11) NOT NULL COMMENT '关键词id',
-  `name` varchar(255) NOT NULL COMMENT '关键词集群名称',
-  `keywords` text NOT NULL COMMENT '关键词集群，空格为分割'
+  `keywords` varchar(255) NOT NULL COMMENT '关键词集群，空格为分割'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='搜索关键词表';
 
 --
 -- 转存表中的数据 `websearch_keywords`
 --
 
-INSERT INTO `websearch_keywords` (`key_id`, `name`, `keywords`) VALUES
-(2, '违规词', '最大 最多 最好 最大 最多 最好  最大 最多 最好');
+INSERT INTO `websearch_keywords` (`key_id`, `keywords`) VALUES
+(13, '最大'),
+(16, 'http://www.baidu.com');
 
 -- --------------------------------------------------------
 
@@ -63,8 +63,9 @@ CREATE TABLE `websearch_matching` (
 CREATE TABLE `websearch_sonurl` (
   `sonurl_id` int(11) NOT NULL COMMENT '子域名id',
   `url_id` int(11) NOT NULL COMMENT '主域名',
-  `sonurl` varchar(255) NOT NULL COMMENT '子域名域名',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '0不可访问，1待检测，2正常，3有匹配'
+  `url` varchar(255) NOT NULL COMMENT '子域名域名',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '0不可访问，1等待匹配测试，2已匹配',
+  `collection` int(11) DEFAULT '0' COMMENT '0未采集子网址，1已采集'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子域名表';
 
 -- --------------------------------------------------------
@@ -75,23 +76,33 @@ CREATE TABLE `websearch_sonurl` (
 
 CREATE TABLE `websearch_url` (
   `url_id` int(11) NOT NULL COMMENT '网址id',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT '父ID，0表示顶级',
   `url` varchar(255) NOT NULL COMMENT '网址',
   `title` varchar(255) DEFAULT NULL COMMENT '网站标题',
   `note` varchar(255) DEFAULT NULL COMMENT '备注',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态：0不可访问，1待执行，2,执行中，3执行成功'
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '0不可访问，1等待匹配测试，2已匹配',
+  `collection` int(11) NOT NULL DEFAULT '0' COMMENT '0未采集子网址，1已采集'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='要排查的网址列表';
 
 --
 -- 转存表中的数据 `websearch_url`
 --
 
-INSERT INTO `websearch_url` (`url_id`, `url`, `title`, `note`, `status`) VALUES
-(2, 'www.baidu.com', NULL, '未备注', 1),
-(3, 'www.baidu.com', NULL, '未备注', 1),
-(4, 'www.baidu.com', NULL, '未备注', 1),
-(5, 'www.baidu.com', NULL, '未备注', 0),
-(6, 'www.baidu.com', NULL, '未备注', 1),
-(7, 'www.baidu.com', NULL, '未备注', 0);
+INSERT INTO `websearch_url` (`url_id`, `parent_id`, `url`, `title`, `note`, `status`, `collection`) VALUES
+(461, 0, 'https://shop1416933982155.1688.com/', NULL, '未备注', 1, 0),
+(462, 461, 'https://shop1416933982155.1688.com/page/creditdetail_remark.htm', NULL, NULL, 1, 0),
+(463, 461, 'https://shop1416933982155.1688.com/page/offerlist.htm', NULL, NULL, 1, 0),
+(464, 461, 'https://shop1416933982155.1688.com/page/creditdetail.htm', NULL, NULL, 1, 0),
+(465, 461, 'https://shop1416933982155.1688.com/page/albumlist.htm', NULL, NULL, 1, 0),
+(466, 461, 'https://shop1416933982155.1688.com/page/contactinfo.htm', NULL, NULL, 1, 0),
+(467, 461, 'https://shop1416933982155.1688.com/page/feedback.htm', NULL, NULL, 1, 0),
+(468, 461, 'https://shop1416933982155.1688.com/page/companyinfo.htm', NULL, NULL, 1, 0),
+(469, 461, 'https://shop1416933982155.1688.com/page/offerlist_53456746.htm?sortType=wangpu_score', NULL, NULL, 1, 0),
+(470, 461, 'https://shop1416933982155.1688.com/page/offerlist_52881753.htm?sortType=wangpu_score', NULL, NULL, 1, 0),
+(471, 461, 'https://shop1416933982155.1688.com/page/offerlist_53456744.htm?sortType=wangpu_score', NULL, NULL, 1, 0),
+(472, 461, 'https://shop1416933982155.1688.com/page/offerlist_53456745.htm?sortType=wangpu_score', NULL, NULL, 1, 0),
+(473, 461, 'https://shop1416933982155.1688.com/page/offerlist_54249088.htm?sortType=wangpu_score', NULL, NULL, 1, 0),
+(474, 461, 'https://shop1416933982155.1688.com/page/offerlist_-2.htm?sortType=wangpu_score', NULL, NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -226,7 +237,7 @@ ALTER TABLE `website_website`
 -- 使用表AUTO_INCREMENT `websearch_keywords`
 --
 ALTER TABLE `websearch_keywords`
-  MODIFY `key_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '关键词id', AUTO_INCREMENT=3;
+  MODIFY `key_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '关键词id', AUTO_INCREMENT=17;
 --
 -- 使用表AUTO_INCREMENT `websearch_matching`
 --
@@ -241,7 +252,7 @@ ALTER TABLE `websearch_sonurl`
 -- 使用表AUTO_INCREMENT `websearch_url`
 --
 ALTER TABLE `websearch_url`
-  MODIFY `url_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '网址id', AUTO_INCREMENT=8;
+  MODIFY `url_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '网址id', AUTO_INCREMENT=475;
 --
 -- 使用表AUTO_INCREMENT `website_tasks`
 --

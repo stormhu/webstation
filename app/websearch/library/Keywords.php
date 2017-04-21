@@ -8,23 +8,9 @@ namespace app\websearch\library;
 
 class Keywords
 {
-	// 插入关键词
-	public function keywordsInsert($key_id,$keywords){
-		// 获取原数据库词
-		$old_keyword = $this->keywordsGet($key_id,"string");
-		$new_keyword = $old_keyword." ".$keywords;
-		// $new_keyword = implode(" ", $new_keyword);
-		$result = db("Keywords")->where("key_id",$key_id)->setField("keywords",$new_keyword);
-		if($result){
-			return true;
-		}else{
-			return false;
-		}
-	}
-
 	// 添加关键词组
-	public function keywordsAdd($name,$keywords){
-		$data = ['name'=>$name,'keywords'=>$keywords];
+	public function keywordsAdd($keywords){
+		$data = ['keywords'=>$keywords];
 		$result = db("Keywords")->insert($data);
 		if($result){
 			return true;
@@ -34,33 +20,28 @@ class Keywords
 	}
 
 	// 删除关键词
-	public function keywordsDel($key_id,$keywords="0"){
-		if($keywords=="0"){
-			$result = db("Keywords")->where("key_id",$key_id)->delete();
-			if($result){
-				return true;
-			}else{
-				return false;
-			}
+	public function keywordsDel($key_id){
+		$result = db("Keywords")->where("key_id",$key_id)->delete();
+		if($result){
+			return $result;
 		}else{
-			// 暂时没有完善
-			return true;
+			return false;
 		}
 	}
 
-	// 获取关键词
-	public function keywordsGet($key_id,$type="array"){
-		if($type=="array"){
-			$keywords = db("Keywords")->where("key_id",$key_id)->value("keywords");
-			$keywords = explode(" ", $keywords);
-			return $keywords;
-		}elseif($type="string") {
-			$keywords = db("Keywords")->where("key_id",$key_id)->value("keywords");
-			return $keywords;
-		}else{
-			return -1;
-		}
+	// 获取关键词列表
+	public function keywordsList($limit=30){
+		$result = db("Keywords")->column("keywords","key_id");
+		return $result;
 	}
 
 	// 关键词检测(重复。。)
+	public function keywordsCkeck($keywords){
+		$result = db("Keywords")->where("keywords",$keywords)->find();
+		if($result==null){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

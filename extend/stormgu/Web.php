@@ -13,7 +13,7 @@ class Web
 	// +---------------------------------------------------------------
 	// + Author: stormhu <stormhu@foxmail.com> 
 	// +---------------------------------------------------------------
-	public function webStatus($url){
+	public function webCheck($url){
 		if(strpos($url, "http")===false){
 			return -1;
 		}
@@ -38,7 +38,7 @@ class Web
 	// +---------------------------------------------------------------
 	// + Author: stormhu <stormhu@foxmail.com> 
 	// +---------------------------------------------------------------
-	public function webListStatus($url_list){
+	public function webListCheck($url_list){
 		foreach($url_list as $k1 => $v1) {
 			$res = $this->webCheck($v1);
 			$new_url_list[$k1]['url'] = $v1;
@@ -91,7 +91,7 @@ class Web
 	// + 页内url采集
 	// +---------------------------------------------------------------
 	// + 参数
-	// + $web_page: 目标页面文件流，与本类中webGet()配合
+	// + $web_html: 目标页面文件流，与本类中webGet()配合
 	// + $type: 采集页内网址的模式--0采集页内所有url--1采集$url域下的url
 	// + $url: 与$type参数配合，url采集范围
 	// +---------------------------------------------------------------
@@ -100,9 +100,9 @@ class Web
 	// +---------------------------------------------------------------
 	// + Author: stormhu <stormhu@foxmail.com> 
 	// +---------------------------------------------------------------
-	public function webUrlCollection($web_page, $type=0, $url=""){
+	public function webUrlCollection($web_html, $type=0, $url=""){
 		if($type==0){
-			$res = preg_match_all("/<a href=\s*\"(.*?)\"/i", $web_page, $matches);
+			$res = preg_match_all("/<a href=\s*\"(.*?)\"/i", $web_html, $matches);
 			if($res===false){
 				return false;
 			}
@@ -110,7 +110,7 @@ class Web
 		}elseif($type==1){
 			if($url=="")
 				return false;
-			$res = preg_match_all("/<a href=\s*\"(.*?)\"/i", $web_page, $matches);
+			$res = preg_match_all("/<a href=\s*\"(.*?)\"/i", $web_html, $matches);
 			foreach($matches[1] as $k1 => $v1) {
 				$res = strpos($v1, $url);
 				if($res===false){
