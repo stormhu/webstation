@@ -11,6 +11,8 @@
 
 // [ 应用入口文件 ]
 
+// 是否开启调试[ true/false ]
+define('DEBUG',true);
 // 定义应用目录
 define('APP_PATH', __DIR__ . '/../app/');
 // 加载框架引导文件

@@ -9,4 +9,19 @@
 namespace app\websearch\controller;
 use think\Controller;
 
-class Ajax
+class Ajax extends Controller
+{
+	public function keywordsInstert(){
+		$keywords = $_POST['keywords'];
+		$Keywords = new \app\websearch\library\Keywords();
+		$res = $Keywords->keywordsInstert(2,"你好");
+		if($res){
+			$data['result'] = true;
+			$data['msg'] = "添加成功";
+		}else{
+			$data['result'] = false;
+			$data['msg'] = "添加失败";
+		}
+		return $data;
+	}
+}

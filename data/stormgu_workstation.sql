@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-04-20 08:13:36
+-- Generation Time: 2017-04-21 06:19:59
 -- 服务器版本： 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -23,10 +23,83 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 表的结构 `stormgu_tasks`
+-- 表的结构 `websearch_keywords`
 --
 
-CREATE TABLE `stormgu_tasks` (
+CREATE TABLE `websearch_keywords` (
+  `key_id` int(11) NOT NULL COMMENT '关键词id',
+  `name` varchar(255) NOT NULL COMMENT '关键词集群名称',
+  `keywords` text NOT NULL COMMENT '关键词集群，空格为分割'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='搜索关键词表';
+
+--
+-- 转存表中的数据 `websearch_keywords`
+--
+
+INSERT INTO `websearch_keywords` (`key_id`, `name`, `keywords`) VALUES
+(2, '违规词', '最大 最多 最好 最大 最多 最好  最大 最多 最好');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `websearch_matching`
+--
+
+CREATE TABLE `websearch_matching` (
+  `matching_id` int(11) NOT NULL COMMENT '相关匹配id',
+  `url_id` int(11) NOT NULL COMMENT '域名id',
+  `sonurl_id` int(11) NOT NULL COMMENT '子域名id',
+  `url` varchar(255) NOT NULL COMMENT '子域名url',
+  `keyword` varchar(255) NOT NULL COMMENT '被检测的关键词',
+  `content` text NOT NULL COMMENT '被检测相关文字定位，以<->为分隔符'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='匹配表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `websearch_sonurl`
+--
+
+CREATE TABLE `websearch_sonurl` (
+  `sonurl_id` int(11) NOT NULL COMMENT '子域名id',
+  `url_id` int(11) NOT NULL COMMENT '主域名',
+  `sonurl` varchar(255) NOT NULL COMMENT '子域名域名',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '0不可访问，1待检测，2正常，3有匹配'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子域名表';
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `websearch_url`
+--
+
+CREATE TABLE `websearch_url` (
+  `url_id` int(11) NOT NULL COMMENT '网址id',
+  `url` varchar(255) NOT NULL COMMENT '网址',
+  `title` varchar(255) DEFAULT NULL COMMENT '网站标题',
+  `note` varchar(255) DEFAULT NULL COMMENT '备注',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态：0不可访问，1待执行，2,执行中，3执行成功'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='要排查的网址列表';
+
+--
+-- 转存表中的数据 `websearch_url`
+--
+
+INSERT INTO `websearch_url` (`url_id`, `url`, `title`, `note`, `status`) VALUES
+(2, 'www.baidu.com', NULL, '未备注', 1),
+(3, 'www.baidu.com', NULL, '未备注', 1),
+(4, 'www.baidu.com', NULL, '未备注', 1),
+(5, 'www.baidu.com', NULL, '未备注', 0),
+(6, 'www.baidu.com', NULL, '未备注', 1),
+(7, 'www.baidu.com', NULL, '未备注', 0);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `website_tasks`
+--
+
+CREATE TABLE `website_tasks` (
   `task_id` int(11) NOT NULL COMMENT '任务id',
   `user_id` int(11) NOT NULL COMMENT '用户id（维护者id）',
   `web_id` int(11) NOT NULL COMMENT '网站id',
@@ -40,10 +113,10 @@ CREATE TABLE `stormgu_tasks` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `stormgu_user`
+-- 表的结构 `website_user`
 --
 
-CREATE TABLE `stormgu_user` (
+CREATE TABLE `website_user` (
   `user_id` int(11) NOT NULL COMMENT '用户id（网站维护者）',
   `user_name` varchar(255) DEFAULT NULL COMMENT '用户姓名',
   `user_qq` varchar(255) DEFAULT NULL COMMENT '用户常用联系qq',
@@ -53,10 +126,10 @@ CREATE TABLE `stormgu_user` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `stormgu_weblog`
+-- 表的结构 `website_weblog`
 --
 
-CREATE TABLE `stormgu_weblog` (
+CREATE TABLE `website_weblog` (
   `log_id` int(11) NOT NULL COMMENT '日志id',
   `user_id` int(11) DEFAULT NULL COMMENT '维护者id',
   `web_id` int(11) NOT NULL COMMENT '网站id',
@@ -68,10 +141,10 @@ CREATE TABLE `stormgu_weblog` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `stormgu_website`
+-- 表的结构 `website_website`
 --
 
-CREATE TABLE `stormgu_website` (
+CREATE TABLE `website_website` (
   `web_id` int(11) NOT NULL COMMENT '网站id',
   `web_name` varchar(255) NOT NULL COMMENT '网站名',
   `web_url` varchar(255) NOT NULL COMMENT '网站url',
@@ -98,27 +171,51 @@ CREATE TABLE `stormgu_website` (
 --
 
 --
--- Indexes for table `stormgu_tasks`
+-- Indexes for table `websearch_keywords`
 --
-ALTER TABLE `stormgu_tasks`
+ALTER TABLE `websearch_keywords`
+  ADD PRIMARY KEY (`key_id`);
+
+--
+-- Indexes for table `websearch_matching`
+--
+ALTER TABLE `websearch_matching`
+  ADD PRIMARY KEY (`matching_id`);
+
+--
+-- Indexes for table `websearch_sonurl`
+--
+ALTER TABLE `websearch_sonurl`
+  ADD PRIMARY KEY (`sonurl_id`);
+
+--
+-- Indexes for table `websearch_url`
+--
+ALTER TABLE `websearch_url`
+  ADD PRIMARY KEY (`url_id`);
+
+--
+-- Indexes for table `website_tasks`
+--
+ALTER TABLE `website_tasks`
   ADD PRIMARY KEY (`task_id`);
 
 --
--- Indexes for table `stormgu_user`
+-- Indexes for table `website_user`
 --
-ALTER TABLE `stormgu_user`
+ALTER TABLE `website_user`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- Indexes for table `stormgu_weblog`
+-- Indexes for table `website_weblog`
 --
-ALTER TABLE `stormgu_weblog`
+ALTER TABLE `website_weblog`
   ADD PRIMARY KEY (`log_id`);
 
 --
--- Indexes for table `stormgu_website`
+-- Indexes for table `website_website`
 --
-ALTER TABLE `stormgu_website`
+ALTER TABLE `website_website`
   ADD PRIMARY KEY (`web_id`);
 
 --
@@ -126,24 +223,44 @@ ALTER TABLE `stormgu_website`
 --
 
 --
--- 使用表AUTO_INCREMENT `stormgu_tasks`
+-- 使用表AUTO_INCREMENT `websearch_keywords`
 --
-ALTER TABLE `stormgu_tasks`
+ALTER TABLE `websearch_keywords`
+  MODIFY `key_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '关键词id', AUTO_INCREMENT=3;
+--
+-- 使用表AUTO_INCREMENT `websearch_matching`
+--
+ALTER TABLE `websearch_matching`
+  MODIFY `matching_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '相关匹配id';
+--
+-- 使用表AUTO_INCREMENT `websearch_sonurl`
+--
+ALTER TABLE `websearch_sonurl`
+  MODIFY `sonurl_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '子域名id';
+--
+-- 使用表AUTO_INCREMENT `websearch_url`
+--
+ALTER TABLE `websearch_url`
+  MODIFY `url_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '网址id', AUTO_INCREMENT=8;
+--
+-- 使用表AUTO_INCREMENT `website_tasks`
+--
+ALTER TABLE `website_tasks`
   MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '任务id';
 --
--- 使用表AUTO_INCREMENT `stormgu_user`
+-- 使用表AUTO_INCREMENT `website_user`
 --
-ALTER TABLE `stormgu_user`
+ALTER TABLE `website_user`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户id（网站维护者）';
 --
--- 使用表AUTO_INCREMENT `stormgu_weblog`
+-- 使用表AUTO_INCREMENT `website_weblog`
 --
-ALTER TABLE `stormgu_weblog`
+ALTER TABLE `website_weblog`
   MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '日志id';
 --
--- 使用表AUTO_INCREMENT `stormgu_website`
+-- 使用表AUTO_INCREMENT `website_website`
 --
-ALTER TABLE `stormgu_website`
+ALTER TABLE `website_website`
   MODIFY `web_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '网站id';
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

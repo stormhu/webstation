@@ -17,5 +17,7 @@ return [
     'template'               => [
         // 模板路径
         'view_path'    => APP_PATH.'websearch/tpl/default/',
+        // 模板后缀
+        'view_suffix'  => 'tpl',
     ],
 ];
