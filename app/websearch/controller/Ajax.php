@@ -72,6 +72,19 @@ class Ajax extends Controller
 		return $data;
 	}
 
+	public function urlCollection(){
+		$Url = new \app\websearch\library\Url();
+		$urlList = db("Url")->where("collection",0)->column("url","url_id");
+		// $c_url = "https://shop1416933982155.1688.com/";
+		foreach ($urlList as $k1 => $v1) {
+			$Url->urlCollection($v1);
+		}
+		$data['result'] = true;
+		$data['msg'] = "采集成功";
+		return $data;
+
+	}
+
 	public function refreshHtml(){
 		$html_key = $_POST['html_key'];
 		$html = "";
@@ -87,7 +100,15 @@ class Ajax extends Controller
 			$Url = new \app\websearch\library\Url();
 			$urls = $Url->urlList();
 			foreach($urls as $k1 => $v1) {
-				$html .= '<tr><td>'.$v1['url_id'].'</td><td>'.$v1['url'].'</td><td>'.$v1['note'].'</td><td>'.$v1['status'].'</td><td><span style="cursor:pointer;" onclick="urlDel('.$v1['url_id'].')">&times;</span></td></tr>';
+				$html .= '<tr><td>'.$v1['url_id'].'</td><td>'.$v1['url'].'</td><td>'.$v1['note'].'</td><td>'.$v1['status'].'</td><td>'.$v1['collection'].'</td><td><span style="cursor:pointer;" onclick="urlDel('.$v1['url_id'].',\'urls_tbody\')">&times;</span></td></tr>';
+			}
+			$data['result'] = true;
+			$data['html'] = $html;
+		}elseif($html_key=="sonurls"){
+			$Url = new \app\websearch\library\Url();
+			$sonurls = $Url->sonurlList();
+			foreach($sonurls as $k1 => $v1) {
+				$html .= '<tr><td>'.$v1['url_id'].'</td><td>'.$v1['parent_id'].'</td><td>'.$v1['url'].'</td><td>'.$v1['status'].'</td><td>'.$v1['collection'].'</td><td><span style="cursor:pointer;" onclick="sonurlDel('.$v1['url_id'].',\'sonurls_tbody\');">&times;</span></td></tr>';
 			}
 			$data['result'] = true;
 			$data['html'] = $html;

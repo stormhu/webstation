@@ -47,8 +47,18 @@ class Url
 	// +---------------------------------------------------------------
 	// + Author: stormhu <stormhu@foxmail.com> 
 	// +---------------------------------------------------------------
-	public function urlList(){
-		$result = db("Url")->where("parent_id",'0')->select();
+	public function urlList($page=1,$limit=10){
+		$result = db("Url")->page($page)->limit($limit)->where("parent_id",'0')->select();
+		return $result;
+	}
+
+	public function sonurlList($page=1,$limit=10){
+		// if($parent_id==""){
+		// 	$result = db("Url")->where("parent_id", 'neq' ,'0')->select();
+		// }else{
+		// 	$result = db("Url")->where("parent_id",$parent_id)->select();
+		// }
+		$result = db("Url")->page($page)->limit($limit)->where("parent_id", 'neq' ,0)->select();
 		return $result;
 	}
 
@@ -78,19 +88,24 @@ class Url
 	// +---------------------------------------------------------------
 	public function urlCollection($url){
 		$url_id = db("Url")->where("url",$url)->value("url_id");
+		$parent_id = db("Url")->where("url_id",$url_id)->value("parent_id");
 		$Web = new \stormgu\Web();
 		$web_html = $Web->webGet($url);
-		// echo $web_html;
-		// return $web_html;
+		if($parent_id){
+			$url = db("Url")->where("url_id",$parent_id)->value("url");
+		}
 		$sonurls = $Web->webUrlCollection($web_html,1,$url);
 		if($sonurls===false||count($sonurls)==0){
 			return false;
 		}
 		$sonurls = $this->urlListCheck($sonurls);
 		foreach($sonurls as $k1 => $v1){
-			$data = ['parent_id'=>$url_id, 'url'=>$v1['url'], 'status'=>$v1['status']];
-			db("Url")->insert($data);
+			if(db("Url")->where("url",$v1['url'])->find()==null){
+				$data = ['parent_id'=>$url_id, 'url'=>$v1['url'], 'status'=>$v1['status']];
+				db("Url")->insert($data);
+			}
 		}
+		db("Url")->where("url_id",$url_id)->setField("collection",1);
 		return true;
 	}
 

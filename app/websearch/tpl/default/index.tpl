@@ -22,13 +22,13 @@
 					<div class="input-group">
 						<input type="text" id="keywords" class="form-control" placeholder="请输入关键词" >
 						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="keywordsAdd()" >添加</a>
+							<a class="btn btn-default" onclick="keywordsAdd('keywords_body')" >添加</a>
 						</div>
 					</div>
 				</div>
 				<div id="keywords_body" class="panel-body">
 					{foreach name="keywords" item="v" key="k" }
-					<h3 style="display:inline-block;"><span class="label label-default">{$v} <span style="cursor:pointer;" onclick="keywordsDel({$k})">&times;</span></span></h3>
+					<h3 style="display:inline-block;"><span class="label label-default">{$v} <span style="cursor:pointer;" onclick="keywordsDel({$k},'keywords_body')">&times;</span></span></h3>
 					{/foreach}
 				</div>
 				<!-- 关键词 end -->
@@ -38,7 +38,7 @@
 					<div class="input-group">
 						<input type="text" id="url" class="form-control" placeholder="以http://开头" >
 						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="urlAdd()" >添加</a>
+							<a class="btn btn-default" onclick="urlAdd('urls_tbody')" >添加</a>
 						</div>
 					</div>
 				</div>
@@ -49,6 +49,7 @@
 							<th>URL</th>
 							<th>备注</th>
 							<th>状态</th>
+							<th>采集</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -59,7 +60,8 @@
 							<td>{$v.url}</td>
 							<td>{$v.note}</td>
 							<td>{$v.status}</td>
-							<td><span style="cursor:pointer;" onclick="urlDel({$v.url_id})">&times;</span></td>
+							<td>{$v.collection}</td>
+							<td><span style="cursor:pointer;" onclick="urlDel({$v.url_id},'urls_tbody')">&times;</span></td>
 						</tr>
 						{/foreach}
 					</tbody>
@@ -70,13 +72,44 @@
 
 		<div class="col-md-7">
 			<!-- 自网址查询 -->
-			<div class="panel panel-default" style="max-height:500px;">
+			<div class="panel panel-default" >
 				<div class="panel-heading">
 					<h2>网址采集表</h2>
+					<a class="btn btn-default" onclick="urlCollection()">采集</a>
 				</div>
-				<table>
+				<div class="panel-body" >
+					<table class="table" >
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>父ID</th>
+								<th>URL</th>
+								<th>状态</th>
+								<th>采集</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="sonurls_tbody">
+							{foreach $sonurls as $v }
+							<tr>
+								<td>{$v.url_id}</td>
+								<td>{$v.parent_id}</td>
+								<td>{$v.url}</td>
+								<td>{$v.status}</td>
+								<td>{$v.collection}</td>
+								<td><span style="cursor:pointer;" onclick="sonurlDel({$v.url_id},'sonurls_tbody')">&times;</span></td>
+							</tr>
+							{/foreach}
+						</tbody>
+					</table>
+					<nav aria-label="...">
+					  <ul class="pager">
+					    <li><a href="#">Previous</a></li>
+					    <li><a href="#">Next</a></li>
+					  </ul>
+					</nav>
+				</div>
 					
-				</table>
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -91,7 +124,7 @@
 
 <script type="text/javascript">
 	// 关键词增加
-	function keywordsAdd(){
+	function keywordsAdd(div_id){
 		var data = {
 			keywords:$("#keywords").val()
 		}
@@ -100,12 +133,12 @@
 			url:"/index.php/websearch/Ajax/keywordsAdd",
 			data:data,
 			success:function(msg){
-				refreshHtml("keywords","keywords_body");
+				refreshHtml("keywords",div_id);
 			}
 		});
 	}
 	// 关键词删除
-	function keywordsDel(key_id){
+	function keywordsDel(key_id,div_id){
 		var data = {
 			key_id:key_id,
 		}
@@ -114,12 +147,12 @@
 			url:"/index.php/websearch/Ajax/keywordsDel",
 			data:data,
 			success: function(msg){
-				refreshHtml("keywords","keywords_body");
+				refreshHtml("keywords",div_id);
 			}
 		});
 	}
 	// url添加
-	function urlAdd(){
+	function urlAdd(div_id){
 		var data = {
 			url:$("#url").val(),
 		}
@@ -128,12 +161,12 @@
 			url:"/index.php/websearch/Ajax/urlAdd",
 			data:data,
 			success: function(msg){
-				refreshHtml("urls","urls_tbody");
+				refreshHtml("urls",div_id);
 			}
 		});
 	}
 	// url删除
-	function urlDel(url_id){
+	function urlDel(url_id, div_id){
 		var data = {
 			url_id:url_id,
 		}
@@ -142,13 +175,27 @@
 			url:"/index.php/websearch/Ajax/urlDel",
 			data:data,
 			success: function(msg){
-				refreshHtml("urls","urls_tbody");
+				refreshHtml("urls",div_id);
+			}
+		});
+	}
+
+	function sonurlDel(url_id, div_id){
+		var data = {
+			url_id:url_id,
+		}
+		$.ajax({
+			type:"POST",
+			url:"/index.php/websearch/Ajax/urlDel",
+			data:data,
+			success: function(msg){
+				refreshHtml("sonurls",div_id);
 			}
 		});
 	}
 
 	// 刷新局部区域
-	function refreshHtml(html_key,id){
+	function refreshHtml(html_key,div_id){
 		var data = {
 			html_key:html_key,
 		}
@@ -158,8 +205,17 @@
 			data:data,
 			success: function(msg){
 				if(msg.result){
-					$("#"+id).html(msg.html);
+					$("#"+div_id).html(msg.html);
 				}
+			}
+		});
+	}
+	function urlCollection(){
+		$.ajax({
+			type:"POST",
+			url:"/index.php/websearch/Ajax/urlCollection",
+			success: function(msg){
+				refreshHtml("sonurls","sonurls_tbody");
 			}
 		});
 	}
