@@ -1,13 +1,16 @@
 <?php
 namespace app\website\controller;
 use think\Controller;
-use think\config;
+use app\website\model\User;
 
 class Index extends Controller
 {
     public function index()
     {
-    	echo Config::get("template.view_path");
-        return $this->fetch("/index");
+		$User = new User();
+		$user =  User::get(1);
+		echo $user->name;
+
+        // return $this->fetch("/index");
     }
 }
