@@ -10,18 +10,12 @@ class Index extends Controller
 {
     public function index()
     {
-		// $User = new User();
-		// $user =  User::get(1);
-		// echo $user->name;
+		$Web = new Web();
+		$webs = Db("Web")->page("1,10")->select();
+		$this->assign("webs",$webs);
 
-		// $Web = new Web();
-		// if(input("?post.name"))
-		// 	echo "1";
-		// else
-		// 	echo "0";
-    	$Ajax = new Ajax;
-    	print_r($Ajax->index());
-
+		$Ajax = new Ajax();
+		print_R($Ajax->index());
         return $this->fetch("/index");
     }
 }

@@ -9,14 +9,14 @@
 <body>
 <div class="container">
 	<div class="row">
-		<a class="btn btn-default" data-toggle="modal" data-target="#addweb-modal" >新增网站</a>
+		<a class="btn btn-default" data-toggle="modal" data-target="#webadd-modal" >新增网站</a>
 		<!-- 新增网站模态框 begin -->
-		<div class="modal fade" id="addweb-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal fade" id="webadd-modal" tabindex="-1" role="dialog" aria-labelledby="webadd-title">
 			<div class="modal-dialog" role="document" >
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">新增网站</h4>
+						<h4 class="modal-title" id="webadd-title">新增网站</h4>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" id="webadd-form">
@@ -70,6 +70,203 @@
 			</div>
 		</div>
 		<!-- 新增网站模态框 end -->
+		<div class="col-md-8">
+			{foreach $webs as $v}
+			<div class="panel panel-default">
+				<div class="panel-heading">网站列表</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>编号</th>
+							<th>网站名</th>
+							<th>网站URL</th>
+							<th>网站后台网址</th>
+							<th>网站状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach $webs as $v}
+						<tr>
+							<th>{$v.web_id}</th>
+							<th>{$v.web_name}</th>
+							<th>{$v.web_url}</th>
+							<th>{$v.web_admin_url}</th>
+							<th>{$v.web_status}</th>
+							<th>{$v.web_status}</th>
+						</tr>
+						{/foreach}
+					</tbody>
+
+				</table>
+			</div>
+			{/foreach}
+		</div>
+		<a class="btn btn-default" data-toggle="modal" data-target="#webupdate-modal">更新网站</a>
+		<!-- 更新网站模态框 begin -->
+		<div class="modal fade" id="webupdate-modal" tabindex="-1" role="dialog" aria-labelledby="webuupdate-title">
+			<div class="modal-dialog" role="document" >
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="webupdate-title">更新网站</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" id="webupdate-form">
+							<!-- 网站名 -->
+							<div class="form-group">
+								<label for="web-name" class="col-md-3 control-label">网站名:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-name" name="web-name" placeholder="网站名" />
+								</div>
+							</div>
+
+							<!-- 网站URL -->
+							<div class="form-group">
+								<label for="web-url" class="col-md-3 control-label">网站URL:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-url" name="web-url" placeholder="网站URL" />
+								</div>
+							</div>
+
+							<!-- 网站后台URL -->
+							<div class="form-group">
+								<label for="web-admin-url" class="col-md-3 control-label">网站后台URL:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-admin-url" name="web-admin-url" placeholder="网站后台URL" />
+								</div>
+							</div>
+
+							<!-- 网站后台账户名 -->
+							<div class="form-group">
+								<label for="web-account" class="col-md-3 control-label">网站后台账户:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-account" name="web-account" placeholder="网站后台账户" />
+								</div>
+							</div>
+
+							<!-- 网站后台账户密码 -->
+							<div class="form-group">
+								<label for="web-pass" class="col-md-3 control-label">网站后台密码:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-pass" name="web-pass" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站icp备案号 -->
+							<div class="form-group">
+								<label for="web-icp" class="col-md-3 control-label">网站后台密码:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-icp" name="web-icp" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站icp备案号账号 -->
+							<div class="form-group">
+								<label for="web-icp-account" class="col-md-3 control-label">网站后台密码:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-icp-account" name="web-icp-account" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站icp备案号密码 -->
+							<div class="form-group">
+								<label for="web-icp-pass" class="col-md-3 control-label">网站后台密码:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-icp-pass" name="web-icp-pass" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站icp邮箱 -->
+							<div class="form-group">
+								<label for="web-icp-email" class="col-md-3 control-label">网站后台密码:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-icp-email" name="web-icp-email" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站状态 -->
+							<div class="form-group">
+								<label for="web-status" class="col-md-3 control-label">网站后台密码:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-status" name="web-status" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站开通时间 -->
+							<div class="form-group">
+								<label for="domain-buildtime" class="col-md-3 control-label">网站后台密码:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="domain-buildtime" name="domain-buildtime" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站域名到期时间 -->
+							<div class="form-group">
+								<label for="domain-endtime" class="col-md-3 control-label">网站后台密码:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="domain-endtime" name="domain-endtime" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站ftp连接地址 -->
+							<div class="form-group">
+								<label for="ftp-url" class="col-md-3 control-label">网站ftp连接地址:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="ftp-url" name="ftp-url" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站ftp账户 -->
+							<div class="form-group">
+								<label for="ftp-account" class="col-md-3 control-label">网站ftp账户:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="ftp-account" name="ftp-account" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站ftp账户密码 -->
+							<div class="form-group">
+								<label for="ftp-pass" class="col-md-3 control-label">网站ftp账户密码:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="ftp-pass" name="ftp-pass" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站联系人 -->
+							<div class="form-group">
+								<label for="owner-name" class="col-md-3 control-label">网站联系人:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="owner-name" name="owner-name" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站联系人手机 -->
+							<div class="form-group">
+								<label for="owner-phone" class="col-md-3 control-label">网站联系人手机:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="owner-phone" name="owner-phone" placeholder="网站后台密码" />
+								</div>
+							</div>
+
+							<!-- 网站联系人QQ -->
+							<div class="form-group">
+								<label for="owner-qq" class="col-md-3 control-label">网站联系人QQ:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="owner-qq" name="owner-qq" placeholder="网站后台密码" />
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+        				<button type="button" class="btn btn-primary" id="webupdate-submit">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 更新网站模态框 end -->
+
 	</div>
 </div>
 </body>
@@ -78,10 +275,30 @@
 		var data = $("#webadd-form").serialize()+"&type=webadd";
 		var temp = /-/g;
 		var data = data.replace(temp,"_");
+		$.ajax({
+			type:"POST",
+			url:"/index.php/website/Ajax/index",
+			data:data,
+			error: function(request) {
+                    alert(request.error);
+                },
+			success:function(msg){
+				if(msg.result){
+					alert(msg.msg);
+				}else{
+					alert(msg.msg);
+				}
+			}
+		});
+	});
+	$("#webupdate-submit").click(function(){
+		var data = $("#webupdate-form").serialize()+"&type=webupdate";
+		var temp = /-/g;
+		var data = data.replace(temp,"_");
 		// alert(data);
 		$.ajax({
 			type:"POST",
-			url:"/index.php/website/Ajax",
+			url:"/index.php/website/Ajax/index",
 			data:data,
 			error: function(request) {
                     alert(request.error);

@@ -7,7 +7,6 @@ use app\website\model\Web;
 class Ajax extends Controller
 {
 	public function index(){
-		// $_POST = str_replace("-", "_", $_POST);
 		if(!input("?post.type")){
 			$data['result'] = false;
 			$data['msg'] = "未定义type";
@@ -15,27 +14,28 @@ class Ajax extends Controller
 		}
 		$type = $_POST['type'];
 		if($type=="webadd"){
-			if(!input("?post.web_name")&&$_POST['web_name']!=""){
+			if(!input("?post.web_name")){
 				$data['result'] = false;
-				$data['msg'] = "网站名必须添加";
+				$data['msg'] = "网站名必须添加1";
 				return $data;
-			}elseif(!input("?post.web_url")&&$_POST['web_url']!=""){
+			}elseif(!input("?post.web_url")){
 				$data['result'] = false;
-				$data['msg'] = "网站名必须添加";
+				$data['msg'] = "网站名必须添加2";
 				return $data;
-			}elseif(!input("?post.web_admin_url")&&$_POST['web_admin_url']!=""){
+			}elseif(!input("?post.web_admin_url")){
 				$data['result'] = false;
-				$data['msg'] = "网站名必须添加";
+				$data['msg'] = "网站名必须添加3";
 				return $data;
-			}elseif(!input("?post.web_account")&&$_POST['web_account']!=""){
+			}elseif(!input("?post.web_account")){
 				$data['result'] = false;
-				$data['msg'] = "网站名必须添加";
+				$data['msg'] = "网站名必须添加4";
 				return $data;
-			}elseif(!input("?post.web_pass")&&$_POST['web_pass']!=""){
+			}elseif(!input("?post.web_pass")){
 				$data['result'] = false;
-				$data['msg'] = "网站名必须添加";
+				$data['msg'] = "网站名必须添加5";
 				return $data;
 			}else{
+				// return "1";
 				$Web = new Web($_POST);
 				$Web->allowField(true)->save();
 				$data['result'] = true;
