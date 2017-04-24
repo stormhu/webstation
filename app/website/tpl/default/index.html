@@ -7,6 +7,94 @@
 	<title>网站维护工作站</title>
 </head>
 <body>
-<
+<div class="container">
+	<div class="row">
+		<a class="btn btn-default" data-toggle="modal" data-target="#addweb-modal" >新增网站</a>
+		<!-- 新增网站模态框 begin -->
+		<div class="modal fade" id="addweb-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document" >
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">新增网站</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" id="webadd-form">
+							<!-- 网站名 -->
+							<div class="form-group">
+								<label for="web-name" class="col-md-3 control-label">网站名:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-name" name="web-name" placeholder="网站名" />
+								</div>
+							</div>
+
+							<!-- 网站URL -->
+							<div class="form-group">
+								<label for="web-url" class="col-md-3 control-label">网站URL:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-url" name="web-url" placeholder="网站URL" />
+								</div>
+							</div>
+
+							<!-- 网站后台URL -->
+							<div class="form-group">
+								<label for="web-admin-url" class="col-md-3 control-label">网站后台URL:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-admin-url" name="web-admin-url" placeholder="网站后台URL" />
+								</div>
+							</div>
+
+							<!-- 网站后台账户名 -->
+							<div class="form-group">
+								<label for="web-account" class="col-md-3 control-label">网站后台账户:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-account" name="web-account" placeholder="网站后台账户" />
+								</div>
+							</div>
+
+							<!-- 网站后台账户密码 -->
+							<div class="form-group">
+								<label for="web-pass" class="col-md-3 control-label">网站后台密码:</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" id="web-pass" name="web-pass" placeholder="网站后台密码" />
+								</div>
+							</div>
+							<!-- <input type="hidden" name="type" value="webadd" /> -->
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+        				<button type="button" class="btn btn-primary" id="webadd-submit">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 新增网站模态框 end -->
+	</div>
+</div>
 </body>
+<script type="text/javascript">
+	$("#webadd-submit").click(function(){
+		var data = $("#webadd-form").serialize()+"&type=webadd";
+		var temp = /-/g;
+		var data = data.replace(temp,"_");
+		// alert(data);
+		$.ajax({
+			type:"POST",
+			url:"/index.php/website/Ajax",
+			data:data,
+			error: function(request) {
+                    alert(request.error);
+                },
+			success:function(msg){
+				if(msg.result){
+					alert(msg.msg);
+				}else{
+					alert(msg.msg);
+				}
+			}
+		});
+	});
+</script>
+
 </html>
