@@ -1,0 +1,6 @@
+
+body{ margin:0px; padding:0px; }
+.top{ position:fixed; width:100%; height:60px; top:0px; z-index:101; background:#ccc; }
+.body{ position:fixed; width:100%; top:60px; bottom:0px; }
+.b-left{ position:fixed; width:180px; top:60px; bottom:0px; left:0px; }
+.b-right{ position:fixed; top:60px; bottom:0px; left:180px; right:0px; }

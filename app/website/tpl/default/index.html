@@ -7,9 +7,14 @@
 	<title>网站维护工作站</title>
 </head>
 <body>
+<div class="jumbotron">
+	<div class="container">
+		<h2>共120个网站，80个维护中，40个停止维护</h2>
+	</div>
+</div>
 <div class="container">
 	<div class="row">
-		<a class="btn btn-default" data-toggle="modal" data-target="#webadd-modal" >新增网站</a>
+		<!-- <a class="btn btn-default" data-toggle="modal" data-target="#webadd-modal" >新增网站</a> -->
 		<!-- 新增网站模态框 begin -->
 		<div class="modal fade" id="webadd-modal" tabindex="-1" role="dialog" aria-labelledby="webadd-title">
 			<div class="modal-dialog" role="document" >
@@ -78,11 +83,11 @@
 					<thead>
 						<tr>
 							<th>编号</th>
-							<th>网站名</th>
-							<th>网站URL</th>
-							<th>网站后台网址</th>
-							<th>网站状态</th>
-							<th>操作</th>
+							<th>网站</th>
+							<th>首页</th>
+							<th>维护</th>
+							<th>最近一次更新</th>
+							<!-- <th>操作</th> -->
 						</tr>
 					</thead>
 					<tbody>
@@ -90,10 +95,10 @@
 						<tr>
 							<th>{$v.web_id}</th>
 							<th>{$v.web_name}</th>
-							<th>{$v.web_url}</th>
-							<th>{$v.web_admin_url}</th>
+							<th><a href="{$v.web_url}">首页</a></th>
+							<th>小雅</th>
 							<th>{$v.web_status}</th>
-							<th><a href="javascript:void(0);" data-toggle="modal" data-target="#webupdate-modal" onclick="fillweb({$v.web_id})" >修改</a> <a >删除</a></th>
+							<!-- <th><a href="javascript:void(0);" data-toggle="modal" data-target="#webupdate-modal" onclick="fillweb({$v.web_id})" >修改</a> <a >删除</a></th> -->
 						</tr>
 						{/foreach}
 					</tbody>
@@ -101,7 +106,30 @@
 				</table>
 			</div>
 		</div>
-		<a class="btn btn-default" data-toggle="modal" data-target="#webupdate-modal">更新网站</a>
+		<div class="col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading" style="border-left:5px solid #333;">
+					<h3>最近到期网站：<span>3</span></h3>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>网站</th>
+							<th>首页</th>
+							<th>到期时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>测试</th>
+							<th><a href="">首页</a></th>
+							<th>测试</th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- <a class="btn btn-default" data-toggle="modal" data-target="#webupdate-modal">更新网站</a> -->
 		<!-- 更新网站模态框 begin -->
 		<div class="modal fade" id="webupdate-modal" tabindex="-1" role="dialog" aria-labelledby="webuupdate-title">
 			<div class="modal-dialog" role="document" >

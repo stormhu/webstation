@@ -23,9 +23,9 @@ class Common extends Controller
 		$temp_sign = md5(db("user")->where("name",$name)->value("pass"));
 		if(!($sign===$temp_sign)){
 			// $this->success("ok","");
-			echo "请登录";
+			// echo "请登录";
 		}else{
-			echo "已登录";
+			// echo "已登录";
 		}
 	}
 }

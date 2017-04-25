@@ -28,7 +28,10 @@ class Index extends Common
 		// $Ajax = new Ajax();
 		// print_R($Ajax->index());
 
-        return $this->fetch("/index");
+        // return $this->fetch("/index");
+		$header = $this->fetch("/header");
+		$footer = $this->fetch("/footer");
+        return $header.$this->fetch("/tasks").$footer;
 
 
         echo "string";
