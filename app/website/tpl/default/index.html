@@ -70,8 +70,8 @@
 			</div>
 		</div>
 		<!-- 新增网站模态框 end -->
+		<!-- 网站列表 -->
 		<div class="col-md-8">
-			{foreach $webs as $v}
 			<div class="panel panel-default">
 				<div class="panel-heading">网站列表</div>
 				<table class="table">
@@ -93,14 +93,13 @@
 							<th>{$v.web_url}</th>
 							<th>{$v.web_admin_url}</th>
 							<th>{$v.web_status}</th>
-							<th>{$v.web_status}</th>
+							<th><a href="javascript:void(0);" data-toggle="modal" data-target="#webupdate-modal" onclick="fillweb({$v.web_id})" >修改</a> <a >删除</a></th>
 						</tr>
 						{/foreach}
 					</tbody>
 
 				</table>
 			</div>
-			{/foreach}
 		</div>
 		<a class="btn btn-default" data-toggle="modal" data-target="#webupdate-modal">更新网站</a>
 		<!-- 更新网站模态框 begin -->
@@ -112,151 +111,7 @@
 						<h4 class="modal-title" id="webupdate-title">更新网站</h4>
 					</div>
 					<div class="modal-body">
-						<form class="form-horizontal" id="webupdate-form">
-							<!-- 网站名 -->
-							<div class="form-group">
-								<label for="web-name" class="col-md-3 control-label">网站名:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="web-name" name="web-name" placeholder="网站名" />
-								</div>
-							</div>
-
-							<!-- 网站URL -->
-							<div class="form-group">
-								<label for="web-url" class="col-md-3 control-label">网站URL:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="web-url" name="web-url" placeholder="网站URL" />
-								</div>
-							</div>
-
-							<!-- 网站后台URL -->
-							<div class="form-group">
-								<label for="web-admin-url" class="col-md-3 control-label">网站后台URL:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="web-admin-url" name="web-admin-url" placeholder="网站后台URL" />
-								</div>
-							</div>
-
-							<!-- 网站后台账户名 -->
-							<div class="form-group">
-								<label for="web-account" class="col-md-3 control-label">网站后台账户:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="web-account" name="web-account" placeholder="网站后台账户" />
-								</div>
-							</div>
-
-							<!-- 网站后台账户密码 -->
-							<div class="form-group">
-								<label for="web-pass" class="col-md-3 control-label">网站后台密码:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="web-pass" name="web-pass" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站icp备案号 -->
-							<div class="form-group">
-								<label for="web-icp" class="col-md-3 control-label">网站后台密码:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="web-icp" name="web-icp" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站icp备案号账号 -->
-							<div class="form-group">
-								<label for="web-icp-account" class="col-md-3 control-label">网站后台密码:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="web-icp-account" name="web-icp-account" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站icp备案号密码 -->
-							<div class="form-group">
-								<label for="web-icp-pass" class="col-md-3 control-label">网站后台密码:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="web-icp-pass" name="web-icp-pass" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站icp邮箱 -->
-							<div class="form-group">
-								<label for="web-icp-email" class="col-md-3 control-label">网站后台密码:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="web-icp-email" name="web-icp-email" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站状态 -->
-							<div class="form-group">
-								<label for="web-status" class="col-md-3 control-label">网站后台密码:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="web-status" name="web-status" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站开通时间 -->
-							<div class="form-group">
-								<label for="domain-buildtime" class="col-md-3 control-label">网站后台密码:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="domain-buildtime" name="domain-buildtime" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站域名到期时间 -->
-							<div class="form-group">
-								<label for="domain-endtime" class="col-md-3 control-label">网站后台密码:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="domain-endtime" name="domain-endtime" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站ftp连接地址 -->
-							<div class="form-group">
-								<label for="ftp-url" class="col-md-3 control-label">网站ftp连接地址:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="ftp-url" name="ftp-url" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站ftp账户 -->
-							<div class="form-group">
-								<label for="ftp-account" class="col-md-3 control-label">网站ftp账户:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="ftp-account" name="ftp-account" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站ftp账户密码 -->
-							<div class="form-group">
-								<label for="ftp-pass" class="col-md-3 control-label">网站ftp账户密码:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="ftp-pass" name="ftp-pass" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站联系人 -->
-							<div class="form-group">
-								<label for="owner-name" class="col-md-3 control-label">网站联系人:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="owner-name" name="owner-name" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站联系人手机 -->
-							<div class="form-group">
-								<label for="owner-phone" class="col-md-3 control-label">网站联系人手机:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="owner-phone" name="owner-phone" placeholder="网站后台密码" />
-								</div>
-							</div>
-
-							<!-- 网站联系人QQ -->
-							<div class="form-group">
-								<label for="owner-qq" class="col-md-3 control-label">网站联系人QQ:</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" id="owner-qq" name="owner-qq" placeholder="网站后台密码" />
-								</div>
-							</div>
-						</form>
+						<form class="form-horizontal" id="webupdate-form"></form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
@@ -269,8 +124,10 @@
 
 	</div>
 </div>
+<div><img src="{:captcha_src()}" onclick="javascript:this.src='{:captcha_src()}'"></div>
 </body>
 <script type="text/javascript">
+
 	$("#webadd-submit").click(function(){
 		var data = $("#webadd-form").serialize()+"&type=webadd";
 		var temp = /-/g;
@@ -280,8 +137,8 @@
 			url:"/index.php/website/Ajax/index",
 			data:data,
 			error: function(request) {
-                    alert(request.error);
-                },
+                alert("request.error");
+            },
 			success:function(msg){
 				if(msg.result){
 					alert(msg.msg);
@@ -291,18 +148,18 @@
 			}
 		});
 	});
+
 	$("#webupdate-submit").click(function(){
 		var data = $("#webupdate-form").serialize()+"&type=webupdate";
 		var temp = /-/g;
 		var data = data.replace(temp,"_");
-		// alert(data);
 		$.ajax({
 			type:"POST",
 			url:"/index.php/website/Ajax/index",
 			data:data,
 			error: function(request) {
-                    alert(request.error);
-                },
+                alert("connect error");
+            },
 			success:function(msg){
 				if(msg.result){
 					alert(msg.msg);
@@ -312,6 +169,25 @@
 			}
 		});
 	});
+
+	function fillweb(web_id){
+		var data = {
+			type :"getform",
+			web_id:web_id,
+		}
+		$.ajax({
+			type:"POST",
+			url:"/index.php/website/Ajax/index",
+			data:data,
+			success:function(msg){
+				if(msg.result){
+					$("#webupdate-form").html(msg.html);
+				}else{
+					alert(msg.msg);
+				}
+			}
+		});
+	}
 </script>
 
 </html>
